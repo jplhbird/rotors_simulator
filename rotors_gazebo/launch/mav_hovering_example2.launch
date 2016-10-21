@@ -28,8 +28,7 @@
       <remap from="odometry" to="odometry_sensor1/odometry" />
     </node>
      
-	<node name="waypoint_publisher" pkg="rotors_gazebo" type="waypoint_publisher" output="screen"/>
-	<node name="waypoint_publisher_file" pkg="rotors_gazebo" type="waypoint_publisher_file" output="screen"/>
+      <node name="waypoint_publisher" pkg="rotors_gazebo" type="waypoint_publisher" output="screen"/>
 
     
 

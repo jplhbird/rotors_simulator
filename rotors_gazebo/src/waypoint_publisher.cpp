@@ -40,6 +40,13 @@ int main(int argc, char** argv) {
   ros::V_string args;
   ros::removeROSArgs(argc, argv, args);
 
+  args.push_back("1");
+  args.push_back("2");
+  args.push_back("2");
+  args.push_back("2");
+  args.push_back("2");
+
+
   double delay;
 
   if (args.size() == 5) {
@@ -58,10 +65,18 @@ int main(int argc, char** argv) {
   trajectory_msgs::MultiDOFJointTrajectory trajectory_msg;
   trajectory_msg.header.stamp = ros::Time::now();
 
-  Eigen::Vector3d desired_position(std::stof(args.at(1)), std::stof(args.at(2)),
-                                   std::stof(args.at(3)));
+//  Eigen::Vector3d desired_position(std::stof(args.at(1)), std::stof(args.at(2)),
+//                                   std::stof(args.at(3)));
 
-  double desired_yaw = std::stof(args.at(4)) * DEG_2_RAD;
+ // double desired_yaw = std::stof(args.at(4)) * DEG_2_RAD;
+
+
+
+  double desired_yaw =0;
+
+  Eigen::Vector3d desired_position(0.0, 0.0, 2.0);
+
+
 
   mav_msgs::msgMultiDofJointTrajectoryFromPositionYaw(desired_position,
       desired_yaw, &trajectory_msg);
