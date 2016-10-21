@@ -27,8 +27,9 @@
       <rosparam command="load" file="$(find rotors_gazebo)/resource/$(arg mav_name).yaml" />
       <remap from="odometry" to="odometry_sensor1/odometry" />
     </node>
-    <node name="hovering_example" pkg="rotors_gazebo" type="hovering_example" output="screen"/>
-
+     
+	<node name="waypoint_publisher" pkg="rotors_gazebo" type="waypoint_publisher" output="screen"/>
+	<node name="waypoint_publisher_file" pkg="rotors_gazebo" type="waypoint_publisher_file" output="screen"/>
 
     
 
