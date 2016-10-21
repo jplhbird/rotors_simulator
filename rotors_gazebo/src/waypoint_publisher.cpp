@@ -65,16 +65,20 @@ int main(int argc, char** argv) {
   trajectory_msgs::MultiDOFJointTrajectory trajectory_msg;
   trajectory_msg.header.stamp = ros::Time::now();
 
-//  Eigen::Vector3d desired_position(std::stof(args.at(1)), std::stof(args.at(2)),
-//                                   std::stof(args.at(3)));
+  Eigen::Vector3d desired_position(std::stof(args.at(1)), std::stof(args.at(2)),
+                                   std::stof(args.at(3)));
 
- // double desired_yaw = std::stof(args.at(4)) * DEG_2_RAD;
+  double desired_yaw = std::stof(args.at(4)) * DEG_2_RAD;
 
 
+  ROS_INFO_STREAM("position x is: " << std::stof(args.at(1)));
+  ROS_INFO_STREAM("position y is: " << std::stof(args.at(2)));
+  ROS_INFO_STREAM("position z is: " << std::stof(args.at(3)));
+  ROS_INFO_STREAM("desired yaw angle is: " << desired_yaw);
 
-  double desired_yaw =0;
 
-  Eigen::Vector3d desired_position(0.0, 0.0, 2.0);
+ //   desired_yaw =0;
+ //   Eigen::Vector3d desired_position(0.0, 0.0, 10.0);
 
 
 
