@@ -71,7 +71,77 @@ int main(int argc, char** argv){
            desired_position.x(),
            desired_position.y(),
            desired_position.z());
-  trajectory_pub.publish(trajectory_msg);
+ // trajectory_pub.publish(trajectory_msg);
+
+
+
+
+  //test:
+
+  ros::Publisher pose_pub =
+        nh.advertise<geometry_msgs::PoseStamped>(mav_msgs::default_topics::COMMAND_POSE, 10);
+
+
+  geometry_msgs::PoseStamped posecmd;
+
+  posecmd.pose.position.x = 1;
+  posecmd.pose.position.y = 2;
+  posecmd.pose.position.z = 3;
+
+  posecmd.pose.orientation.x = 0;
+  posecmd.pose.orientation.y = 0;
+  posecmd.pose.orientation.z = 0;
+  posecmd.pose.orientation.w = 0;
+
+//  for ( int i = 0; i<100000000; i++)
+//  {
+//	  posecmd.pose.position.z = posecmd.pose.position.z + 0.001;
+//
+//	  pose_pub.publish(posecmd);
+//  }
+
+  // %Tag(LOOP_RATE)%
+     ros::Rate loop_rate(0.01);
+  // %EndTag(LOOP_RATE)%
+
+    /**
+     * A count of how many messages we have sent. This is used to create
+     * a unique string for each message.
+     */
+  // %Tag(ROS_OK)%
+    int count = 0;
+    while (ros::ok())
+    {
+    	/**
+       * The publish() function is how you send messages. The parameter
+       * is the message object. The type of this object must agree with the type
+       * given as a template parameter to the advertise<>() call, as was done
+       * in the constructor above.
+       */
+  // %Tag(PUBLISH)%
+    	//pose_pub.publish(posecmd);
+  // %EndTag(PUBLISH)%
+//    	ROS_INFO("Publishing waypoint on namespace %s: [%f, %f, %f].",
+//    	           nh.getNamespace().c_str(),
+//				   posecmd.pose.position.x,
+//				   posecmd.pose.position.y,
+//				   posecmd.pose.position.z);
+
+  // %Tag(SPINONCE)%
+      ros::spinOnce();
+  // %EndTag(SPINONCE)%
+
+  // %Tag(RATE_SLEEP)%
+      loop_rate.sleep();
+  // %EndTag(RATE_SLEEP)%
+      ++count;
+    }
+
+
+
+
+
+
 
   ros::spin();
 }
