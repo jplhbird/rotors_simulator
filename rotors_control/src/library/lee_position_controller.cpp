@@ -20,12 +20,56 @@
 
 #include "rotors_control/lee_position_controller.h"
 
+#include <qpOASES.hpp>
+
 namespace rotors_control {
 
 LeePositionController::LeePositionController()
     : initialized_params_(false),
       controller_active_(false) {
   InitializeParameters();
+
+
+  //test beginning
+
+  USING_NAMESPACE_QPOASES;
+	/* Setup data of first QP. */
+	real_t H[2*2] = { 1.0, 0.0, 0.0, 0.5 };
+	real_t A[1*2] = { 1.0, 1.0 };
+	real_t g[2] = { 1.5, 1.0 };
+	real_t lb[2] = { 0.5, -2.0 };
+	real_t ub[2] = { 5.0, 2.0 };
+	real_t lbA[1] = { -1.0 };
+	real_t ubA[1] = { 2.0 };
+
+	/* Setup data of second QP. */
+	real_t g_new[2] = { 1.0, 1.5 };
+	real_t lb_new[2] = { 0.0, -1.0 };
+	real_t ub_new[2] = { 5.0, -0.5 };
+	real_t lbA_new[1] = { -2.0 };
+	real_t ubA_new[1] = { 1.0 };
+
+
+	/* Setting up QProblem object. */
+	QProblem example( 2,1 );
+
+	Options options;
+	example.setOptions( options );
+
+	/* Solve first QP. */
+	int nWSR = 10;
+	example.init( H,g,A,lb,ub,lbA,ubA, nWSR );
+
+	/* Get and print solution of first QP. */
+	real_t xOpt[2];
+	real_t yOpt[2+1];
+	example.getPrimalSolution( xOpt );
+	example.getDualSolution( yOpt );
+	printf( "\nxOpt = [ %e, %e ];  yOpt = [ %e, %e, %e ];  objVal = %e\n\n",
+			xOpt[0],xOpt[1],yOpt[0],yOpt[1],yOpt[2],example.getObjVal() );
+
+	//test finish
+
 }
 
 LeePositionController::~LeePositionController() {}
@@ -108,6 +152,8 @@ void LeePositionController::ComputeDesiredAcceleration(Eigen::Vector3d* accelera
   *acceleration = (position_error.cwiseProduct(controller_parameters_.position_gain_)
       + velocity_error.cwiseProduct(controller_parameters_.velocity_gain_)) / vehicle_parameters_.mass_
       - vehicle_parameters_.gravity_ * e_3 - command_trajectory_.acceleration_W;
+
+
 }
 
 // Implementation from the T. Lee et al. paper

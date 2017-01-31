@@ -27,6 +27,9 @@
 #include "rotors_control/common.h"
 #include "rotors_control/parameters.h"
 
+#include <qpOASES.hpp>
+
+
 namespace rotors_control {
 
 // Default values for the lee position controller and the Asctec Firefly.
@@ -58,6 +61,8 @@ class LeePositionController {
  public:
   LeePositionController();
   ~LeePositionController();
+
+
   void InitializeParameters();
   void CalculateRotorVelocities(Eigen::VectorXd* rotor_velocities) const;
 
